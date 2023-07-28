@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+from sys import argv
+from math import sqrt
+
+
+def open_read_file(file_nm):
+    with open(file_nm, "r", encoding="utf-8") as file:
+        lines_tot = file.readlines()
+    number_to_factor = []
+    for line_nbr in lines_tot:
+        number_to_factor.append(int(line_nbr))
+    return number_to_factor
+
+
+def find_and_times(nbr):
+    for i in range(1, nbr):
+        if nbr == ((nbr // i) * i):
+            print("{}={}*{}".format(nbr, (nbr // i), i))
+            break
+
+
+def fact_lst(lst):
+
+    for a in lst:
+        find_and_times(a)
+
+
+if len(argv) == 2:
+    fact_lst(open_read_file(argv[1]))
+
