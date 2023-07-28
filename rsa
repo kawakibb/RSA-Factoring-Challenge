@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#is a challenge
+check_factor()
+{
+	if [ $# -ne 3 ];
+        then
+                args=("$@")
+                cnt=0
+                nbr2=1
+                for a in ${args[*]};
+                do
+                        if [ $cnt -gt 1 ];
+                        then
+                                nbr2=$(echo $a*$nbr2 | bc)
+                        fi
+                        cnt=$((cnt + 1))
+                done
+        else
+                nbr2=$3
+        fi
+
+        nbr1=$2
+        nbr=$(echo "$1" | tr ':' '=')
+
+        result=$(echo "if($nbr2 > $nbr1) 1 else 0" | bc)
+	        if ((result == 1)); then
+		        nbrcp=$nbr1
+		        nbr1=$nbr2
+		        nbr2=$nbrcp
+                fi
+
+        echo "$nbr$nbr1*$nbr2"
+}
+
+if [ $# -ne 1 ]
+then
+        echo 'Usage: rsa <file>'
+        exit 1
+else
+
+        while read i
+        do
+
+                result=$(factor "$i")
+                check_factor $result
+
+        done < "$1"
+fi
